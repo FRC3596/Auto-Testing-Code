@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Command> m_chooser; 
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,8 +40,15 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		drivetrain = new Drivetrain();
+		
+		m_chooser = new SendableChooser<>();
+		
 		m_autonomousCommand = new TimedMovement();
-		//SmartDashboard.putData("Auto mode", m_chooser);
+		m_chooser.addDefault("Timed Movement", new TimedMovement());
+		
+
+		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Selected", m_chooser.getSelected());
 	}
 
 	/**
@@ -72,8 +79,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-	//	m_autonomousCommand = m_chooser.getSelected();
-		m_autonomousCommand.start();
+		m_autonomousCommand = m_chooser.getSelected();
+		//m_autonomousCommand.start();
 		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
